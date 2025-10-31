@@ -21,9 +21,10 @@ This comprehensive guide includes:
 - **Unreal Engine 5.6.1** (or compatible 5.6.x version)
 - **Visual Studio 2022** (Windows) with:
   - Desktop development with C++ workload
+    - ⚠️ Including **MSVC v143 - VS 2022 C++ x64/x86 build tools (Latest)**
   - Game development with C++ workload
   - .NET desktop development
-  - Windows 10/11 SDK
+  - Windows 10/11 SDK (latest version)
 - **Xcode** (Mac) - for macOS development
 - **16GB RAM minimum** (32GB recommended)
 
@@ -103,12 +104,15 @@ Having trouble building the project? Check these common solutions:
 
 - **"Build tools for Visual Studio 2022 (v143) cannot be found"**
   - Make sure Visual Studio 2022 is installed with C++ workloads
+  - ⚠️ **CRITICAL:** Must include **"MSVC v143 - VS 2022 C++ x64/x86 build tools (Latest)"** component
+  - Open Visual Studio Installer → Modify → Desktop development with C++ → Check Installation details panel for v143
   - Regenerate project files (right-click `.uproject` → Generate Visual Studio project files)
-  - See [TROUBLESHOOTING.md](TROUBLESHOOTING.md#visual-studio-2022-build-tools-not-found)
+  - See [TROUBLESHOOTING.md](TROUBLESHOOTING.md#visual-studio-2022-build-tools-not-found) for detailed steps
 
 - **"Platform 'Win64' referenced in the project file cannot be found"**
+  - This often appears with the v143 error above - check v143 build tools are installed first
   - Delete old project files and regenerate them
-  - Make sure you open `VoxelSurvival.sln`, not files in Intermediate folder
+  - Make sure you open `VoxelSurvival.sln` in the project root, NOT files in Intermediate folder
   - See [TROUBLESHOOTING.md](TROUBLESHOOTING.md#win64-platform-cannot-be-found)
 
 - **Project won't open in Unreal Engine**
