@@ -2,12 +2,29 @@
 
 This is a template plugin that demonstrates how to create mods for Voxel Survival.
 
+## 🎯 Visual Guide Available!
+
+See [../../SETUP_GUIDE.md](../../SETUP_GUIDE.md) for visual instructions on building the main project first.
+
+**⚠️ Important:** You must build the main VoxelSurvival project successfully before this plugin will work!
+
 ## What's Included
 
 - **Plugin Structure**: Complete plugin setup with `.uplugin` file
 - **Build Configuration**: `ExampleMod.Build.cs` with proper dependencies
 - **Module Setup**: Module initialization in `ExampleMod.h/cpp`
 - **Example Building**: `AExampleBuilding` class showing how to extend buildings
+
+## Prerequisites
+
+Before using this mod template:
+1. ✅ VoxelSurvival must be built successfully in Visual Studio
+2. ✅ Unreal Engine 5.6.1 must be able to open VoxelSurvival.uproject
+3. ✅ You should understand basic C++ and Unreal Engine concepts
+
+**If you're getting "modules missing" errors:**
+- You haven't built VoxelSurvival yet
+- See [../../SETUP_GUIDE.md](../../SETUP_GUIDE.md) for step-by-step setup instructions
 
 ## How to Use This Template
 

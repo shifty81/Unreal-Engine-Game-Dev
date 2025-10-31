@@ -6,6 +6,17 @@ A comprehensive voxel-based survival game with RTS elements, featuring territory
 
 This project is an Unreal Engine 5.6.1 game with full C++ source code.
 
+### 🎯 New User? Start Here!
+
+**📚 [SETUP_GUIDE.md](SETUP_GUIDE.md) - Complete Visual Setup Guide with Step-by-Step Instructions**
+
+This comprehensive guide includes:
+- ✅ Detailed visual diagrams
+- ✅ Step-by-step screenshots descriptions
+- ✅ Common error solutions
+- ✅ Build process flowcharts
+- ✅ Directory structure explanations
+
 ### Prerequisites
 - **Unreal Engine 5.6.1** (or compatible 5.6.x version)
 - **Visual Studio 2022** (Windows) with:
@@ -16,7 +27,9 @@ This project is an Unreal Engine 5.6.1 game with full C++ source code.
 - **Xcode** (Mac) - for macOS development
 - **16GB RAM minimum** (32GB recommended)
 
-### Getting Started
+### Quick Setup (Experienced Users)
+
+**⚠️ IMPORTANT:** You **MUST** build in Visual Studio BEFORE opening the .uproject file!
 
 1. **Clone the repository**
    ```bash
@@ -24,26 +37,25 @@ This project is an Unreal Engine 5.6.1 game with full C++ source code.
    cd Unreal-Engine-Game-Dev
    ```
 
-2. **Generate project files**
-   
-   **⚠️ IMPORTANT:** You must generate Visual Studio project files before building!
+2. **Generate project files** ⚠️ **Don't skip this!**
    
    - Right-click `VoxelSurvival.uproject`
    - Select "Generate Visual Studio project files"
-   - Wait for the process to complete
+   - Wait for the process to complete (30-60 seconds)
    
-   > **Note:** If you get build errors about missing build tools or Win64 platform,
-   > you likely skipped this step. Go back and complete step 2 first, then try building again.
-   > See [TROUBLESHOOTING.md](TROUBLESHOOTING.md) for detailed help.
+   > **Common Error:** If you get "modules are missing or built with a different engine version",
+   > you skipped this step! See [SETUP_GUIDE.md](SETUP_GUIDE.md) for detailed instructions.
 
-3. **Build the project**
+3. **Build the project** ⚠️ **Required before opening!**
    - Open the generated `VoxelSurvival.sln` file
    - Select configuration: **"Development Editor"**
    - Select platform: **"Win64"**
    - Build the solution (Build → Build Solution or Ctrl+Shift+B)
+   - Wait for successful build (5-15 minutes)
 
-4. **Open in Unreal Engine**
+4. **Open in Unreal Engine** ✅ **Only after successful build!**
    - Double-click `VoxelSurvival.uproject`
+   - First launch takes 5-10 minutes (shader compilation)
 
 ## Features
 
@@ -60,13 +72,33 @@ This project is an Unreal Engine 5.6.1 game with full C++ source code.
 
 ## Documentation
 
+- 🚀 [**Setup Guide (START HERE!)**](SETUP_GUIDE.md) - **Visual step-by-step setup with diagrams**
 - 📖 [**Game Documentation**](GAME_DOCUMENTATION.md) - Comprehensive game systems guide
 - 🔧 [**Modding Guide**](MODDING_GUIDE.md) - Complete modding and extension guide
 - 🛠️ [**Troubleshooting**](TROUBLESHOOTING.md) - Common issues and solutions
 
+## Most Common Issue ⚠️
+
+**"The following modules are missing or built with a different engine version: VoxelSurvival, ExampleMod"**
+
+This error means you opened the `.uproject` file **before** building in Visual Studio. 
+
+**Solution:**
+1. Close the error dialog (click "No")
+2. Follow the correct order: Generate Project Files → Build in Visual Studio → Open in Unreal Engine
+3. See [SETUP_GUIDE.md](SETUP_GUIDE.md) for detailed visual instructions
+
+**Never click "Yes" to rebuild** - the editor cannot rebuild without proper project files!
+
 ## Common Issues
 
 Having trouble building the project? Check these common solutions:
+
+- **"The following modules are missing or built with a different engine version"** ⚠️ **MOST COMMON**
+  - You opened `.uproject` before building in Visual Studio
+  - **DO NOT** click "Yes" to rebuild
+  - Close editor, generate project files, build in VS, then open .uproject
+  - See [SETUP_GUIDE.md](SETUP_GUIDE.md#issue-1-missing-or-built-with-different-engine-version-) for step-by-step fix
 
 - **"Build tools for Visual Studio 2022 (v143) cannot be found"**
   - Make sure Visual Studio 2022 is installed with C++ workloads
@@ -83,7 +115,9 @@ Having trouble building the project? Check these common solutions:
   - Right-click `.uproject` → Switch Unreal Engine version
   - See [TROUBLESHOOTING.md](TROUBLESHOOTING.md#missing-unreal-engine-association)
 
-For more detailed solutions, see [**TROUBLESHOOTING.md**](TROUBLESHOOTING.md).
+For more detailed solutions with visual guides, see:
+- 🚀 [**SETUP_GUIDE.md**](SETUP_GUIDE.md) - Visual step-by-step setup instructions
+- 🛠️ [**TROUBLESHOOTING.md**](TROUBLESHOOTING.md) - Comprehensive troubleshooting guide
 
 ## Project Structure
 
