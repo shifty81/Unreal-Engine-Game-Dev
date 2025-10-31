@@ -3,11 +3,26 @@
 This guide covers common issues and their solutions when building and running Voxel Survival.
 
 ## Table of Contents
+- [Quick Issue Identifier](#quick-issue-identifier)
 - [Build Issues](#build-issues)
 - [Visual Studio Issues](#visual-studio-issues)
 - [Unreal Engine Issues](#unreal-engine-issues)
 - [Performance Issues](#performance-issues)
 - [Security Warnings](#security-warnings)
+
+---
+
+## Quick Issue Identifier
+
+**Getting errors during setup? Identify your issue:**
+
+| Error Message | Most Likely Cause | Solution |
+|--------------|------------------|----------|
+| "The build tools for Visual Studio 2022 (v143) cannot be found" | Missing MSVC v143 component in Visual Studio | [Jump to v143 Build Tools Section](#visual-studio-2022-build-tools-not-found) |
+| "Platform 'Win64' referenced in the project file cannot be found" | Missing v143 tools OR opening wrong .sln file | [Jump to Win64 Platform Section](#win64-platform-cannot-be-found) |
+| "Modules are missing or built with a different engine version" | Opened .uproject before building in Visual Studio | [Jump to Missing Modules Section](#missing-or-built-with-different-engine-version-most-common-) |
+
+⚠️ **Note:** The v143 and Win64 errors often appear together - they usually share the same root cause (missing Visual Studio 2022 v143 build tools).
 
 ---
 
@@ -103,17 +118,42 @@ This error occurs when Visual Studio project files haven't been generated for yo
 
 #### Step 1: Verify Visual Studio 2022 Installation
 
-1. Ensure Visual Studio 2022 is installed with the following components:
-   - **Desktop development with C++** workload
-   - **Game development with C++** workload
-   - **.NET desktop development** (for Unreal Build Tool)
-   - **Windows 10/11 SDK** (latest version)
+1. Ensure Visual Studio 2022 is installed with the following workloads **and their specific components**:
 
-To modify your installation:
-- Open **Visual Studio Installer**
-- Click **Modify** on Visual Studio 2022
-- Select the required workloads
-- Click **Modify** to install
+   **Required Workloads:**
+   - **Desktop development with C++** workload
+     - ⚠️ **CRITICAL:** Must include **"MSVC v143 - VS 2022 C++ x64/x86 build tools (Latest)"**
+     - Windows 10/11 SDK (latest version)
+     - C++ profiling tools
+   
+   - **Game development with C++** workload
+     - C++ profiling tools
+     - Windows 10/11 SDK
+     - Unreal Engine installer (optional)
+   
+   - **.NET desktop development** workload
+     - Required for Unreal Build Tool
+
+**To verify and install the v143 build tools:**
+
+1. Open **Visual Studio Installer**
+2. Click **Modify** on Visual Studio 2022
+3. Select the **"Desktop development with C++"** workload
+4. On the right panel under "Installation details", expand **"Desktop development with C++"**
+5. **Verify that "MSVC v143 - VS 2022 C++ x64/x86 build tools (Latest)" is checked**
+   - This is the specific v143 component that the error message refers to
+   - Multiple versions may be listed (e.g., v143, v142, v141) - ensure v143 is selected
+   - ⚠️ Some versions are marked "out of support" - you need the **current v143 version**, not legacy versions
+6. Also ensure **"Windows 10 SDK"** or **"Windows 11 SDK"** (latest) is checked
+7. Click **Modify** to install the selected components
+8. Restart your computer after installation completes
+
+**Quick Verification Command:**
+After installation, verify v143 tools are present:
+```batch
+dir "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC"
+```
+You should see a directory like `14.3x.xxxxx` (the v143 toolset)
 
 #### Step 2: Generate Visual Studio Project Files
 
@@ -145,9 +185,11 @@ Platform 'Win64' referenced in the project file 'UE5' cannot be found.
 ```
 
 **Cause:**
-The Visual Studio project files are missing, corrupted, or outdated.
+The Visual Studio project files are missing, corrupted, or outdated. This error often appears together with the "v143 build tools cannot be found" error.
 
 **Solution:**
+
+**First, ensure Visual Studio 2022 with v143 build tools is properly installed** (see section above). Then:
 
 1. **Delete existing project files** (if any):
    ```batch
@@ -165,7 +207,10 @@ The Visual Studio project files are missing, corrupted, or outdated.
    - If missing, regeneration failed - check the output logs
 
 4. **Open the correct solution file**:
-   - Open `VoxelSurvival.sln` (not any files in Intermediate folder)
+   - Open `VoxelSurvival.sln` in the **project root folder**
+   - ⚠️ **DO NOT** open any `.sln` or `.vcxproj` files from the `Intermediate\ProjectFiles` folder
+     - Files in Intermediate are internal build artifacts, not meant to be opened directly
+     - Opening these will cause "Win64 platform not found" errors
    - Set build configuration to **"Development Editor"**
    - Select platform **"Win64"**
 
