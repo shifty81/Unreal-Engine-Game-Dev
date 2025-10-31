@@ -170,6 +170,34 @@ Source/VoxelSurvival/
 - Update README.md if needed
 - Update GAME_DOCUMENTATION.md for features
 - Update MODDING_GUIDE.md for extensibility
+- Update TROUBLESHOOTING.md for common issues
+
+### Visual Documentation 🎨
+
+**We encourage adding screenshots and diagrams to documentation!**
+
+See [docs/README.md](docs/README.md) for guidelines on adding visual assets.
+
+**High Priority Screenshots Needed:**
+- Setup process steps
+- Error messages and solutions
+- UI elements and workflows
+- Gameplay features
+
+**How to Add Screenshots:**
+1. Take clear, annotated screenshots
+2. Use descriptive filenames (e.g., `error-modules-missing.png`)
+3. Place in appropriate `docs/images/` subdirectory
+4. Reference in markdown: `![Description](docs/images/category/filename.png)`
+5. Update docs/README.md checklist
+
+**Creating Diagrams:**
+- Use draw.io, Excalidraw, or PlantUML
+- Save source files in `docs/diagrams/`
+- Export PNG to `docs/images/architecture/`
+- ASCII art diagrams are also great (see SETUP_GUIDE.md)
+
+Even simple screenshots help new users tremendously!
 
 ## Pull Request Guidelines
 
