@@ -76,6 +76,7 @@ This comprehensive guide includes:
 - 📖 [**Game Documentation**](GAME_DOCUMENTATION.md) - Comprehensive game systems guide
 - 🔧 [**Modding Guide**](MODDING_GUIDE.md) - Complete modding and extension guide
 - 🛠️ [**Troubleshooting**](TROUBLESHOOTING.md) - Common issues and solutions
+- 🔒 [**Security Policy**](SECURITY.md) - Security advisories and vulnerability information
 
 ## Most Common Issue ⚠️
 
@@ -115,9 +116,16 @@ Having trouble building the project? Check these common solutions:
   - Right-click `.uproject` → Switch Unreal Engine version
   - See [TROUBLESHOOTING.md](TROUBLESHOOTING.md#missing-unreal-engine-association)
 
+- **"Magick.NET-Q16-HDRI-AnyCPU vulnerability" warning** 🔒
+  - This is a **false positive** - the project doesn't use this package
+  - No action required - your code is not affected
+  - See [SECURITY.md](SECURITY.md) for detailed analysis
+  - See [TROUBLESHOOTING.md](TROUBLESHOOTING.md#magick-net-q16-hdri-anycpu-vulnerability-warning)
+
 For more detailed solutions with visual guides, see:
 - 🚀 [**SETUP_GUIDE.md**](SETUP_GUIDE.md) - Visual step-by-step setup instructions
 - 🛠️ [**TROUBLESHOOTING.md**](TROUBLESHOOTING.md) - Comprehensive troubleshooting guide
+- 🔒 [**SECURITY.md**](SECURITY.md) - Security advisories and false positives
 
 ## Project Structure
 
