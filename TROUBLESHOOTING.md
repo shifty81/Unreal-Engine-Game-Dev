@@ -22,7 +22,7 @@ This guide covers common issues and their solutions when building and running Vo
 | "Platform 'Win64' referenced in the project file cannot be found" | Missing v143 tools OR opening wrong .sln file | [Jump to Win64 Platform Section](#win64-platform-cannot-be-found) |
 | "Modules are missing or built with a different engine version" | Opened .uproject before building in Visual Studio | [Jump to Missing Modules Section](#missing-or-built-with-different-engine-version-most-common-) |
 
-⚠️ **Note:** The v143 and Win64 errors often appear together - they usually share the same root cause (missing Visual Studio 2022 v143 build tools).
+⚠️ **Note:** The v143 and Win64 errors often appear together because the Win64 platform configuration requires the v143 toolset to be installed. If you're experiencing both errors, start by fixing the v143 build tools issue first.
 
 ---
 
@@ -151,9 +151,16 @@ This error occurs when Visual Studio project files haven't been generated for yo
 **Quick Verification Command:**
 After installation, verify v143 tools are present:
 ```batch
+REM Check Community edition
 dir "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC"
+
+REM Or for Professional edition
+dir "C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC"
+
+REM Or for Enterprise edition
+dir "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC"
 ```
-You should see a directory like `14.3x.xxxxx` (the v143 toolset)
+You should see a directory like `14.39.33519` or similar (version 14.3x.xxxxx indicates the v143 toolset is installed)
 
 #### Step 2: Generate Visual Studio Project Files
 
