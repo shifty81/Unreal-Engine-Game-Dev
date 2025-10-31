@@ -41,7 +41,11 @@ This project is an Unreal Engine 5.6.1 game with full C++ source code.
 ✅ **Base Building** - Constructible buildings that affect territory  
 ✅ **Ship Building System** - Modular ship construction with component system  
 ✅ **Hangar System** - Ship storage and construction facilities  
-✅ **Wireframe Characters** - Basic character system ready for expansion  
+✅ **Resource System** - Complete resource gathering, processing, and crafting  
+✅ **Player Character** - Full character with movement, inventory, and equipment  
+✅ **Crafting System** - Tool and item crafting with recipes  
+✅ **Tool System** - Pickaxes, axes, shovels, and hammers with durability  
+✅ **GUI & Hotbar** - Inventory management and hotbar system  
 
 ## Documentation
 
