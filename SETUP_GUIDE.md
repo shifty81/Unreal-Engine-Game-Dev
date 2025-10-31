@@ -312,18 +312,25 @@ The build tools for Visual Studio 2022 (v143) cannot be found.
 
 **Solution:**
 1. Verify Visual Studio 2022 is installed with C++ workloads (see Prerequisites)
+   - ⚠️ **CRITICAL:** Must include **"MSVC v143 - VS 2022 C++ x64/x86 build tools (Latest)"**
+   - Open Visual Studio Installer → Modify → Desktop development with C++ → Check right panel for v143
 2. Regenerate project files (Step 2)
 3. Restart Visual Studio
+
+For detailed step-by-step instructions, see [TROUBLESHOOTING.md - Visual Studio 2022 Build Tools Not Found](TROUBLESHOOTING.md#visual-studio-2022-build-tools-not-found).
 
 ---
 
 ### Issue 4: Visual Studio Shows "Platform 'Win64' Not Found" ❌
 
 **Solution:**
-1. Close Visual Studio
-2. Delete: `.vs` folder, `*.sln`, `*.vcxproj*` files
-3. Regenerate project files
-4. Open the NEW `.sln` file (not old ones)
+1. This often appears with the v143 error - ensure v143 build tools are installed first (see Issue 3)
+2. Close Visual Studio
+3. Delete: `.vs` folder, `*.sln`, `*.vcxproj*` files
+4. Regenerate project files
+5. Open the NEW `VoxelSurvival.sln` file in the project root (NOT from Intermediate folder)
+
+For detailed instructions, see [TROUBLESHOOTING.md - Win64 Platform Cannot Be Found](TROUBLESHOOTING.md#win64-platform-cannot-be-found).
 
 ---
 
