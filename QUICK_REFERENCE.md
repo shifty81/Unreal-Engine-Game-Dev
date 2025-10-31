@@ -1,5 +1,35 @@
 # Quick Reference - Voxel Survival Game
 
+## 🚀 First Time Setup
+
+**New to this project? Start here:**
+- 📚 [SETUP_GUIDE.md](SETUP_GUIDE.md) - **Complete visual setup guide with diagrams**
+- 🛠️ [TROUBLESHOOTING.md](TROUBLESHOOTING.md) - Common issues and solutions
+
+---
+
+## ⚠️ Critical Build Order
+
+```
+┌─────────────────────────────────────────────────┐
+│  CORRECT BUILD ORDER (MUST FOLLOW!)             │
+├─────────────────────────────────────────────────┤
+│  1. Clone Repository                            │
+│  2. Generate Project Files (right-click)        │
+│  3. Build in Visual Studio (Ctrl+Shift+B)       │
+│  4. Open in Unreal Engine (.uproject)           │
+└─────────────────────────────────────────────────┘
+
+❌ WRONG: Open .uproject first → Error about missing modules
+✅ RIGHT: Generate → Build in VS → Then open .uproject
+```
+
+**Most Common Error:** "modules are missing or built with a different engine version"
+- **Cause:** You opened `.uproject` before building in Visual Studio
+- **Fix:** See [SETUP_GUIDE.md](SETUP_GUIDE.md#issue-1-missing-or-built-with-different-engine-version-)
+
+---
+
 ## Building the Project
 
 ### Windows

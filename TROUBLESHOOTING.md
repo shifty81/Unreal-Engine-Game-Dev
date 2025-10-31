@@ -12,6 +12,82 @@ This guide covers common issues and their solutions when building and running Vo
 
 ## Build Issues
 
+### Missing or Built with Different Engine Version (MOST COMMON) ⚠️
+
+**Error Message:**
+```
+The following modules are missing or built with a different engine version:
+
+  VoxelSurvival
+  ExampleMod
+
+Would you like to rebuild them now?
+```
+
+Followed by (if you click "Yes"):
+```
+VoxelSurvival could not be compiled. Try rebuilding from source manually.
+```
+
+**Cause:**
+This is the **most common error** and happens when:
+1. You opened `VoxelSurvival.uproject` **before** building the project in Visual Studio
+2. You haven't generated Visual Studio project files
+3. The compiled module binaries don't exist or are out of date
+4. You're trying to use the editor's "rebuild" feature without proper project files
+
+**⚠️ DO NOT click "Yes" on the rebuild dialog!** The editor cannot rebuild properly without project files being generated first.
+
+**Solution:**
+
+**Step 1: Close the Error Dialog**
+- Click **"No"** on the rebuild prompt
+- Close Unreal Engine completely
+
+**Step 2: Clean Previous Build Attempts**
+```batch
+cd C:\path\to\Unreal-Engine-Game-Dev
+
+# Delete build artifacts
+rmdir /s /q Binaries
+rmdir /s /q Intermediate
+rmdir /s /q Saved
+rmdir /s /q .vs
+
+# Delete old project files (if any)
+del *.sln
+del *.vcxproj*
+```
+
+**Step 3: Generate Visual Studio Project Files**
+1. Navigate to your project folder in Windows Explorer
+2. Right-click on `VoxelSurvival.uproject`
+3. Select **"Generate Visual Studio project files"**
+4. Wait for completion (30-60 seconds)
+5. Verify that `VoxelSurvival.sln` now exists in the folder
+
+**Step 4: Build in Visual Studio**
+1. Open `VoxelSurvival.sln` in Visual Studio 2022
+2. Set configuration to **"Development Editor"** (top toolbar)
+3. Set platform to **"Win64"**
+4. Build → Build Solution (or press Ctrl+Shift+B)
+5. Wait for build to complete (5-15 minutes)
+6. Verify: "Build succeeded" with 0 errors
+
+**Step 5: Now Open in Unreal Engine**
+- Double-click `VoxelSurvival.uproject`
+- Editor should open successfully
+
+**Visual Guide:**
+See [SETUP_GUIDE.md](SETUP_GUIDE.md) for detailed visual step-by-step instructions.
+
+**Remember:** The correct order is:
+```
+Clone → Generate Project Files → Build in Visual Studio → Open in Unreal Engine
+```
+
+---
+
 ### Visual Studio 2022 Build Tools Not Found
 
 **Error Message:**
