@@ -49,7 +49,7 @@ To modify your installation:
 
 **Method 2: Using Command Line**
 ```batch
-cd /path/to/Unreal-Engine-Game-Dev
+cd C:\path\to\Unreal-Engine-Game-Dev
 "C:\Program Files\Epic Games\UE_5.6\Engine\Build\BatchFiles\Build.bat" -projectfiles -project="%CD%\VoxelSurvival.uproject" -game -engine
 ```
 
@@ -331,4 +331,4 @@ rmdir /s /q Intermediate Binaries Saved .vs
 
 ---
 
-**Last Updated:** November 2025
+**Last Updated:** October 2025

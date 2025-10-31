@@ -33,7 +33,8 @@ This project is an Unreal Engine 5.6.1 game with full C++ source code.
    - Wait for the process to complete
    
    > **Note:** If you get build errors about missing build tools or Win64 platform,
-   > you likely skipped this step. See [TROUBLESHOOTING.md](TROUBLESHOOTING.md) for help.
+   > you likely skipped this step. Go back and complete step 2 first, then try building again.
+   > See [TROUBLESHOOTING.md](TROUBLESHOOTING.md) for detailed help.
 
 3. **Build the project**
    - Open the generated `VoxelSurvival.sln` file
