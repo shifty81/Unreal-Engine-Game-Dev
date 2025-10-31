@@ -7,9 +7,14 @@ A comprehensive voxel-based survival game with RTS elements, featuring territory
 This project is an Unreal Engine 5.6.1 game with full C++ source code.
 
 ### Prerequisites
-- Unreal Engine 5.6.1
-- Visual Studio 2022 (Windows) or Xcode (Mac)
-- 16GB RAM minimum
+- **Unreal Engine 5.6.1** (or compatible 5.6.x version)
+- **Visual Studio 2022** (Windows) with:
+  - Desktop development with C++ workload
+  - Game development with C++ workload
+  - .NET desktop development
+  - Windows 10/11 SDK
+- **Xcode** (Mac) - for macOS development
+- **16GB RAM minimum** (32GB recommended)
 
 ### Getting Started
 
@@ -20,12 +25,21 @@ This project is an Unreal Engine 5.6.1 game with full C++ source code.
    ```
 
 2. **Generate project files**
+   
+   **⚠️ IMPORTANT:** You must generate Visual Studio project files before building!
+   
    - Right-click `VoxelSurvival.uproject`
    - Select "Generate Visual Studio project files"
+   - Wait for the process to complete
+   
+   > **Note:** If you get build errors about missing build tools or Win64 platform,
+   > you likely skipped this step. See [TROUBLESHOOTING.md](TROUBLESHOOTING.md) for help.
 
 3. **Build the project**
-   - Open `VoxelSurvival.sln`
-   - Build in "Development Editor" configuration
+   - Open the generated `VoxelSurvival.sln` file
+   - Select configuration: **"Development Editor"**
+   - Select platform: **"Win64"**
+   - Build the solution (Build → Build Solution or Ctrl+Shift+B)
 
 4. **Open in Unreal Engine**
    - Double-click `VoxelSurvival.uproject`
@@ -47,6 +61,28 @@ This project is an Unreal Engine 5.6.1 game with full C++ source code.
 
 - 📖 [**Game Documentation**](GAME_DOCUMENTATION.md) - Comprehensive game systems guide
 - 🔧 [**Modding Guide**](MODDING_GUIDE.md) - Complete modding and extension guide
+- 🛠️ [**Troubleshooting**](TROUBLESHOOTING.md) - Common issues and solutions
+
+## Common Issues
+
+Having trouble building the project? Check these common solutions:
+
+- **"Build tools for Visual Studio 2022 (v143) cannot be found"**
+  - Make sure Visual Studio 2022 is installed with C++ workloads
+  - Regenerate project files (right-click `.uproject` → Generate Visual Studio project files)
+  - See [TROUBLESHOOTING.md](TROUBLESHOOTING.md#visual-studio-2022-build-tools-not-found)
+
+- **"Platform 'Win64' referenced in the project file cannot be found"**
+  - Delete old project files and regenerate them
+  - Make sure you open `VoxelSurvival.sln`, not files in Intermediate folder
+  - See [TROUBLESHOOTING.md](TROUBLESHOOTING.md#win64-platform-cannot-be-found)
+
+- **Project won't open in Unreal Engine**
+  - Verify Unreal Engine 5.6.1 is installed
+  - Right-click `.uproject` → Switch Unreal Engine version
+  - See [TROUBLESHOOTING.md](TROUBLESHOOTING.md#missing-unreal-engine-association)
+
+For more detailed solutions, see [**TROUBLESHOOTING.md**](TROUBLESHOOTING.md).
 
 ## Project Structure
 
