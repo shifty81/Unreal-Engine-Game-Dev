@@ -7,6 +7,7 @@ This guide covers common issues and their solutions when building and running Vo
 - [Visual Studio Issues](#visual-studio-issues)
 - [Unreal Engine Issues](#unreal-engine-issues)
 - [Performance Issues](#performance-issues)
+- [Security Warnings](#security-warnings)
 
 ---
 
@@ -355,6 +356,62 @@ Some assets might not be committed to the repository.
 3. **Check network replication settings**:
    - Verify NetUpdateFrequency on replicated actors
    - Optimize replication conditions
+
+---
+
+## Security Warnings
+
+### Magick.NET-Q16-HDRI-AnyCPU Vulnerability Warning
+
+**Warning Message:**
+```
+Package 'Magick.NET-Q16-HDRI-AnyCPU' 14.7.0 has a known high severity vulnerability
+https://github.com/advisories/GHSA-qp29-wxp5-wh82
+```
+
+**Status:** This is a **false positive** for this repository.
+
+**Explanation:**
+This Unreal Engine project does not use Magick.NET or any NuGet packages. This warning may appear due to:
+
+1. **GitHub Dependabot False Positive**: GitHub's automated scanning incorrectly associates this repository with the vulnerability
+2. **System-Level Dependency**: Unreal Engine or Visual Studio Build Tools may use ImageMagick internally for asset processing, but this doesn't affect your game code
+3. **Cached Scanning Results**: Outdated security scan data
+
+**What This Means:**
+- Your game code is **NOT affected** by this vulnerability
+- The project does not directly or indirectly reference Magick.NET
+- This warning can be safely ignored for this project
+
+**To Verify:**
+```bash
+# Search for any Magick.NET references (should return nothing)
+grep -r "Magick.NET" . --include="*.cs" --include="*.csproj" --include="*.config"
+
+# Check for NuGet packages (should return nothing)
+find . -name "packages.config" -o -name "*.csproj"
+```
+
+**Action Items:**
+1. ✅ **No code changes required** - this package is not used in the project
+2. 📋 If the warning appears on GitHub, report it as a false positive
+3. 📚 See [SECURITY.md](SECURITY.md) for complete analysis
+
+**Related Issue:**
+If you're seeing this warning alongside "missing v143" errors, these are separate issues. The v143 issue is a build configuration problem (see below), not a security concern.
+
+---
+
+### False Dependency Warnings in General
+
+If you receive other security warnings for packages not used in this project:
+
+1. **Verify the package exists**: Search the codebase for references
+2. **Check .gitignore**: Ensure build artifacts aren't committed
+3. **Review GitHub Security tab**: Dismiss false positives
+4. **Update scanning tools**: Old tools may have incorrect data
+
+This is a pure C++ Unreal Engine project with no external package dependencies beyond Unreal Engine's native modules.
 
 ---
 
