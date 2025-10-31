@@ -139,6 +139,7 @@ Source/VoxelSurvival/
 1. **Compile Successfully**
    - Development Editor configuration
    - Shipping configuration (if applicable)
+   - If you encounter build errors, see [TROUBLESHOOTING.md](TROUBLESHOOTING.md)
 
 2. **Test in Editor**
    - PIE (Play In Editor)
@@ -253,6 +254,7 @@ Closes #123
 
 ## Getting Help
 
+- Review [TROUBLESHOOTING.md](TROUBLESHOOTING.md) for common build and setup issues
 - Open an issue for questions
 - Join community Discord (if available)
 - Check existing documentation
