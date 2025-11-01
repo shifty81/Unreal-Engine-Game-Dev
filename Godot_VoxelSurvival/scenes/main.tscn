@@ -1,0 +1,42 @@
+[gd_scene load_steps=5 format=3 uid="uid://bq3yqw8xwxw8g"]
+
+[ext_resource type="Script" path="res://scripts/voxel/voxel_world.gd" id="1_main"]
+[ext_resource type="Script" path="res://scripts/player/survival_player.gd" id="2_player"]
+[ext_resource type="Script" path="res://scripts/building/building_system.gd" id="3_building"]
+[ext_resource type="Script" path="res://scripts/building/territory_system.gd" id="4_territory"]
+
+[node name="Main" type="Node3D"]
+
+[node name="VoxelWorld" type="Node3D" parent="." groups=["voxel_world"]]
+script = ExtResource("1_main")
+render_distance = 8
+world_seed = 12345
+height_scale = 10.0
+noise_frequency = 0.01
+chunk_size = 16
+voxel_size = 1.0
+
+[node name="Player" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20, 0)
+script = ExtResource("2_player")
+walk_speed = 5.0
+sprint_speed = 8.0
+jump_velocity = 4.5
+mouse_sensitivity = 0.002
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="BuildingSystem" type="Node3D" parent="."]
+script = ExtResource("3_building")
+
+[node name="TerritorySystem" type="Node3D" parent="." groups=["territory_system"]]
+script = ExtResource("4_territory")
+grid_size = 100
+cell_size = 10.0
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 0, 20, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
