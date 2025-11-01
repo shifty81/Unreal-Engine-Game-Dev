@@ -160,7 +160,14 @@ dir "C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC"
 REM Or for Enterprise edition
 dir "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC"
 ```
-You should see a directory like `14.39.33519` or similar (version 14.3x.xxxxx indicates the v143 toolset is installed)
+You should see a directory like `14.44.35207`, `14.39.33519`, or similar (version 14.30.xxxxx or higher indicates the v143 toolset is installed and compatible)
+
+**Note:** All v143 toolset versions (14.30+) are compatible with this project, including:
+- 14.44.35207 (latest as of late 2024)
+- 14.39.33519
+- 14.3x.xxxxx (any version in the 14.30+ range)
+
+The project is configured to use the latest installed v143 toolchain automatically.
 
 #### Step 2: Generate Visual Studio Project Files
 
