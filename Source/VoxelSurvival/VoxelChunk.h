@@ -56,8 +56,23 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Voxel")
 	void DeserializeVoxelData(const TArray<uint8>& Data);
 
+	/** Update water physics (Minecraft-style) */
+	UFUNCTION(BlueprintCallable, Category = "Voxel|Water")
+	void UpdateWaterPhysics();
+
+	/** Get voxel data at position */
+	FVoxelData* GetVoxelData(int32 X, int32 Y, int32 Z);
+
 protected:
 	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
+
+	/** Water update timer */
+	float WaterUpdateTimer = 0.0f;
+
+	/** Water update interval in seconds */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Voxel|Water")
+	float WaterUpdateInterval = 0.1f;
 
 	/** Procedural mesh component for rendering */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Voxel")

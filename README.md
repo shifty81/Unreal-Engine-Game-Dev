@@ -2,6 +2,29 @@
 
 A comprehensive voxel-based survival game with RTS elements, featuring territory control, base building, ship construction, and full multiplayer support.
 
+## 🆕 NEW: Godot Port Available!
+
+Having issues with Unreal .NET 8.0 compatibility? Try the **Godot 4.3 port** for parallel development!
+
+**📂 [Godot_VoxelSurvival/](Godot_VoxelSurvival/)** - Full Godot port with:
+- ✅ Complete voxel system (matching Unreal features)
+- ✅ Minecraft-style water physics (NEW!)
+- ✅ Faster iteration and testing
+- ✅ No Visual Studio or .NET issues
+- ✅ Cross-platform development
+
+See [Godot_VoxelSurvival/README.md](Godot_VoxelSurvival/README.md) for setup instructions.
+
+## 🌊 NEW: Water Physics System!
+
+Both Unreal and Godot versions now include Minecraft-style water physics:
+- Water source blocks provide infinite water
+- Realistic flow: down first, then horizontal spread
+- Water levels (0-8) for realistic behavior
+- Semi-transparent rendering
+
+See [WATER_PHYSICS_DOCUMENTATION.md](WATER_PHYSICS_DOCUMENTATION.md) for complete details.
+
 ## Quick Start
 
 This project is an Unreal Engine 5.6.1 game with full C++ source code.
@@ -61,6 +84,7 @@ This comprehensive guide includes:
 ## Features
 
 ✅ **Voxel World System** - Chunk-based voxel world with procedural mesh generation  
+✅ **Water Physics** - Minecraft-style water flow with source blocks and levels (NEW!)  
 ✅ **Procedural Generation** - Customizable terrain generation with noise-based algorithms  
 ✅ **Multiplayer Support** - Full network replication for online gameplay  
 ✅ **Modding Support** - Data-driven design with extensibility in mind  
@@ -77,6 +101,8 @@ This comprehensive guide includes:
 
 ## Documentation
 
+- 🌊 [**Water Physics Documentation**](WATER_PHYSICS_DOCUMENTATION.md) - **NEW! Water system guide**
+- 🎮 [**Godot Port**](Godot_VoxelSurvival/README.md) - **NEW! Alternative to Unreal**
 - 🚀 [**Setup Guide (START HERE!)**](SETUP_GUIDE.md) - **Visual step-by-step setup with diagrams**
 - 📖 [**Game Documentation**](GAME_DOCUMENTATION.md) - Comprehensive game systems guide
 - 🔧 [**Modding Guide**](MODDING_GUIDE.md) - Complete modding and extension guide

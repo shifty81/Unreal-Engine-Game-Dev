@@ -5,7 +5,7 @@
 
 AVoxelChunk::AVoxelChunk()
 {
-	PrimaryActorTick.bCanEverTick = false;
+	PrimaryActorTick.bCanEverTick = true;
 
 	// Create procedural mesh component
 	MeshComponent = CreateDefaultSubobject<UProceduralMeshComponent>(TEXT("VoxelMesh"));
@@ -23,6 +23,19 @@ AVoxelChunk::AVoxelChunk()
 void AVoxelChunk::BeginPlay()
 {
 	Super::BeginPlay();
+}
+
+void AVoxelChunk::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+	// Update water physics
+	WaterUpdateTimer += DeltaTime;
+	if (WaterUpdateTimer >= WaterUpdateInterval)
+	{
+		WaterUpdateTimer = 0.0f;
+		UpdateWaterPhysics();
+	}
 }
 
 void AVoxelChunk::InitializeChunk(FIntVector Coordinate)
@@ -92,6 +105,8 @@ void AVoxelChunk::AddVoxelFace(
 		case EVoxelType::Wood: VoxelColor = FColor(160, 82, 45); break;
 		case EVoxelType::Iron: VoxelColor = FColor(192, 192, 192); break;
 		case EVoxelType::Gold: VoxelColor = FColor(255, 215, 0); break;
+		case EVoxelType::Water: VoxelColor = FColor(51, 102, 204, 153); break; // Semi-transparent blue
+		case EVoxelType::WaterSource: VoxelColor = FColor(25, 76, 230, 179); break; // Slightly darker blue
 		default: VoxelColor = FColor::White; break;
 	}
 
@@ -185,31 +200,47 @@ void AVoxelChunk::GenerateMesh()
 		{
 			for (int32 X = 0; X < ChunkSize; X++)
 			{
-				EVoxelType VoxelType = GetVoxel(X, Y, Z);
-				
-				if (VoxelType == EVoxelType::Air)
+				FVoxelData* CurrentVoxel = GetVoxelData(X, Y, Z);
+				if (!CurrentVoxel || CurrentVoxel->Type == EVoxelType::Air)
 					continue;
 
 				FVector VoxelPosition = FVector(X, Y, Z) * VoxelSize;
 
-				// Check each face and add if exposed to air
-				if (GetVoxel(X, Y, Z + 1) == EVoxelType::Air)
-					AddVoxelFace(Vertices, Triangles, Normals, UVs, Colors, VoxelPosition, FVector::UpVector, VoxelType);
+				// Helper lambda to check if face should be rendered
+				auto ShouldRenderFace = [&](int32 NX, int32 NY, int32 NZ) -> bool
+				{
+					FVoxelData* Neighbor = GetVoxelData(NX, NY, NZ);
+					if (!Neighbor || Neighbor->IsTransparent())
+					{
+						// Don't render water faces between water blocks of same level
+						if (CurrentVoxel->IsWater() && Neighbor && Neighbor->IsWater() 
+							&& CurrentVoxel->WaterLevel == Neighbor->WaterLevel)
+						{
+							return false;
+						}
+						return true;
+					}
+					return false;
+				};
+
+				// Check each face and add if exposed to transparent block
+				if (ShouldRenderFace(X, Y, Z + 1))
+					AddVoxelFace(Vertices, Triangles, Normals, UVs, Colors, VoxelPosition, FVector::UpVector, CurrentVoxel->Type);
 				
-				if (GetVoxel(X, Y, Z - 1) == EVoxelType::Air)
-					AddVoxelFace(Vertices, Triangles, Normals, UVs, Colors, VoxelPosition, FVector::DownVector, VoxelType);
+				if (ShouldRenderFace(X, Y, Z - 1))
+					AddVoxelFace(Vertices, Triangles, Normals, UVs, Colors, VoxelPosition, FVector::DownVector, CurrentVoxel->Type);
 				
-				if (GetVoxel(X, Y + 1, Z) == EVoxelType::Air)
-					AddVoxelFace(Vertices, Triangles, Normals, UVs, Colors, VoxelPosition, FVector::ForwardVector, VoxelType);
+				if (ShouldRenderFace(X, Y + 1, Z))
+					AddVoxelFace(Vertices, Triangles, Normals, UVs, Colors, VoxelPosition, FVector::ForwardVector, CurrentVoxel->Type);
 				
-				if (GetVoxel(X, Y - 1, Z) == EVoxelType::Air)
-					AddVoxelFace(Vertices, Triangles, Normals, UVs, Colors, VoxelPosition, FVector::BackwardVector, VoxelType);
+				if (ShouldRenderFace(X, Y - 1, Z))
+					AddVoxelFace(Vertices, Triangles, Normals, UVs, Colors, VoxelPosition, FVector::BackwardVector, CurrentVoxel->Type);
 				
-				if (GetVoxel(X + 1, Y, Z) == EVoxelType::Air)
-					AddVoxelFace(Vertices, Triangles, Normals, UVs, Colors, VoxelPosition, FVector::RightVector, VoxelType);
+				if (ShouldRenderFace(X + 1, Y, Z))
+					AddVoxelFace(Vertices, Triangles, Normals, UVs, Colors, VoxelPosition, FVector::RightVector, CurrentVoxel->Type);
 				
-				if (GetVoxel(X - 1, Y, Z) == EVoxelType::Air)
-					AddVoxelFace(Vertices, Triangles, Normals, UVs, Colors, VoxelPosition, FVector::LeftVector, VoxelType);
+				if (ShouldRenderFace(X - 1, Y, Z))
+					AddVoxelFace(Vertices, Triangles, Normals, UVs, Colors, VoxelPosition, FVector::LeftVector, CurrentVoxel->Type);
 			}
 		}
 	}
@@ -251,4 +282,102 @@ void AVoxelChunk::DeserializeVoxelData(const TArray<uint8>& Data)
 	}
 	
 	GenerateMesh();
+}
+
+FVoxelData* AVoxelChunk::GetVoxelData(int32 X, int32 Y, int32 Z)
+{
+	if (!IsValidVoxelCoordinate(X, Y, Z))
+		return nullptr;
+
+	int32 Index = GetVoxelIndex(X, Y, Z);
+	return &VoxelData[Index];
+}
+
+void AVoxelChunk::UpdateWaterPhysics()
+{
+	TArray<TPair<FIntVector, FVoxelData>> WaterChanges;
+
+	// Scan for water blocks
+	for (int32 X = 0; X < ChunkSize; X++)
+	{
+		for (int32 Y = 0; Y < ChunkSize; Y++)
+		{
+			for (int32 Z = 0; Z < ChunkSize; Z++)
+			{
+				FVoxelData* Voxel = GetVoxelData(X, Y, Z);
+				if (Voxel && Voxel->IsWater())
+				{
+					// Water flows down first
+					FVoxelData* Below = GetVoxelData(X, Y, Z - 1);
+					if (Below && !Below->IsSolid() && !Below->IsWater())
+					{
+						// Flow down
+						FVoxelData NewWater(EVoxelType::Water);
+						NewWater.WaterLevel = 8;
+						WaterChanges.Add(TPair<FIntVector, FVoxelData>(FIntVector(X, Y, Z - 1), NewWater));
+
+						// Reduce source water if not a source block
+						if (Voxel->Type != EVoxelType::WaterSource)
+						{
+							Voxel->WaterLevel -= 1;
+							if (Voxel->WaterLevel <= 0)
+							{
+								FVoxelData Air(EVoxelType::Air);
+								WaterChanges.Add(TPair<FIntVector, FVoxelData>(FIntVector(X, Y, Z), Air));
+							}
+						}
+					}
+					// Water spreads horizontally if can't flow down
+					else if (Voxel->WaterLevel > 1)
+					{
+						int32 SpreadLevel = Voxel->WaterLevel - 1;
+
+						// Check all 4 horizontal directions
+						TArray<FIntVector> Directions = {
+							FIntVector(1, 0, 0),
+							FIntVector(-1, 0, 0),
+							FIntVector(0, 1, 0),
+							FIntVector(0, -1, 0)
+						};
+
+						for (const FIntVector& Dir : Directions)
+						{
+							int32 NX = X + Dir.X;
+							int32 NY = Y + Dir.Y;
+							int32 NZ = Z + Dir.Z;
+
+							FVoxelData* Neighbor = GetVoxelData(NX, NY, NZ);
+							if (Neighbor && !Neighbor->IsSolid())
+							{
+								if (!Neighbor->IsWater() || Neighbor->WaterLevel < SpreadLevel)
+								{
+									FVoxelData NewWater(EVoxelType::Water);
+									NewWater.WaterLevel = SpreadLevel;
+									WaterChanges.Add(TPair<FIntVector, FVoxelData>(FIntVector(NX, NY, NZ), NewWater));
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	// Apply water changes
+	bool bMeshNeedsUpdate = false;
+	for (const TPair<FIntVector, FVoxelData>& Change : WaterChanges)
+	{
+		if (IsValidVoxelCoordinate(Change.Key.X, Change.Key.Y, Change.Key.Z))
+		{
+			int32 Index = GetVoxelIndex(Change.Key.X, Change.Key.Y, Change.Key.Z);
+			VoxelData[Index] = Change.Value;
+			bMeshNeedsUpdate = true;
+		}
+	}
+
+	// Regenerate mesh if water changed
+	if (bMeshNeedsUpdate)
+	{
+		GenerateMesh();
+	}
 }
