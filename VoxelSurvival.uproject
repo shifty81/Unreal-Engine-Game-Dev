@@ -1,6 +1,6 @@
 {
 	"FileVersion": 3,
-	"EngineAssociation": "5.6",
+	"EngineAssociation": "5.4",
 	"Category": "",
 	"Description": "Voxel-based survival game with RTS elements, territory control, and ship building",
 	"Modules": [
@@ -17,7 +17,9 @@
 				"OnlineSubsystem",
 				"OnlineSubsystemUtils",
 				"Networking",
-				"Sockets"
+				"Sockets",
+				"AIModule",
+				"EnhancedInput"
 			]
 		}
 	],

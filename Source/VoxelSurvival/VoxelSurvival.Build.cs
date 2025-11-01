@@ -20,7 +20,9 @@ public class VoxelSurvival : ModuleRules
 			"UMG",
 			"Slate",
 			"SlateCore",
-			"ProceduralMeshComponent"
+			"ProceduralMeshComponent",
+			"AIModule",
+			"EnhancedInput"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
